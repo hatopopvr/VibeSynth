@@ -10,7 +10,7 @@ VibeSynthを実際に体験してみてください：[https://apps.hatopolab.xy
 
 ### デモ動画
 
-![VibeSynth - 操作デモ](images/vibesynth-demo.gif)
+![VibeSynth - 操作デモ](images/vibesynth-demo.webp)
 
 パターン生成、ループ録音・再生、音色エディタの使用などの基本機能をデモンストレーションしています。
 
