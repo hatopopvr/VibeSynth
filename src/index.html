@@ -12,6 +12,8 @@
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/ui.css">
   <link rel="stylesheet" href="styles/visualizer.css">
+  <!-- GitHubアイコン用のFont Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <div class="app-container" id="app-container">
@@ -257,6 +259,27 @@
         </div>
         <div id="audio-visualizer" style="width: 100%; height: 50px;"></div>
       </div>
+      
+      <!-- GitHubリンクとクレジット情報 -->
+      <div class="panel-section">
+        <div class="panel-title">
+          <span class="panel-title-text">リンクとクレジット</span>
+        </div>
+        <div class="links-container">
+          <a href="https://github.com/hatopopvr/VibeSynth" target="_blank" class="social-link">
+            <i class="fab fa-github"></i> GitHubリポジトリ
+          </a>
+          <a href="https://hatopolab.xyz" target="_blank" class="social-link">
+            <i class="fas fa-home"></i> はとぽラボ
+          </a>
+          <a href="https://x.com/hatopop_vr" target="_blank" class="social-link">
+            <i class="fab fa-x-twitter"></i> @hatopop_vr
+          </a>
+        </div>
+        <div class="credit-text">
+          <p>© 2024 はとぽラボ (hatopolab) - MIT License</p>
+        </div>
+      </div>
     </div>
   </div>
   
@@ -316,6 +339,14 @@
         <div class="shortcut-item"><span class="key">Delete</span> - 選択中のループをクリア</div>
         <div class="shortcut-item"><span class="key">Esc</span> - モーダルを閉じる</div>
       </div>
+    </div>
+    
+    <!-- クレジット情報をヘルプにも追加 -->
+    <div class="credit-section">
+      <h3>開発情報</h3>
+      <p>VibeSynthは<a href="https://hatopolab.xyz" target="_blank">はとぽラボ</a>によって開発されました。</p>
+      <p>GitHubで<a href="https://github.com/hatopopvr/VibeSynth" target="_blank">ソースコード</a>を確認できます。</p>
+      <p>このプロジェクトはMITライセンスの下で公開されています。</p>
     </div>
   </div>
   <!-- JavaScriptのモジュール読み込み -->

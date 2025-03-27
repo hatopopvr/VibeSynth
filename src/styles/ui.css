@@ -469,4 +469,66 @@ button:hover {
 
 .scale-note.active {
   background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* ここに追加されるリンクとクレジット情報のスタイル */
+.links-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background-color: #333;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.social-link:hover {
+  background-color: #444;
+  transform: translateY(-2px);
+}
+
+.social-link i {
+  font-size: 1.2em;
+}
+
+.credit-text {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #aaa;
+  text-align: center;
+}
+
+.credit-section {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #444;
+}
+
+.credit-section h3 {
+  font-size: 1.1em;
+  margin-bottom: 10px;
+  color: #ddd;
+}
+
+.credit-section p {
+  margin: 5px 0;
+  font-size: 0.9em;
+}
+
+.credit-section a {
+  color: #4CAF50;
+  text-decoration: none;
+}
+
+.credit-section a:hover {
+  text-decoration: underline;
 } 
