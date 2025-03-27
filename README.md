@@ -4,20 +4,15 @@
 
 インタラクティブな音楽ジェネレーティブアートアプリ。マウス操作で直感的に音とビジュアルを生成し、リアルタイムでループ録音・再生ができます。p5.js と Tone.js を使用した、音楽的なビジュアライゼーションとサンプラー機能を融合したウェブベースの創造的なツールです。
 
-<p align="center">
-  <a href="https://apps.hatopolab.xyz/VibeSynth/" target="_blank">
-    <img src="https://img.shields.io/badge/デモを試す-5F5FF9?style=for-the-badge&logo=react&logoColor=white" alt="デモを試す" />
-  </a>
-  <a href="https://github.com/hatopopvr/VibeSynth" target="_blank">
-    <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" />
-  </a>
-</p>
-
 ## 🎵 デモ
 
-![VibeSynth](images/vibesynth-demo.webp)
+VibeSynthを実際に体験してみてください：[https://apps.hatopolab.xyz/VibeSynth/](https://apps.hatopolab.xyz/VibeSynth/)
 
-VibeSynthは、直感的な操作で音楽とビジュアルを同時に生成できるインタラクティブなツールです。上のイメージはアプリケーションのインターフェースと機能を示しています。
+### デモ動画
+
+![VibeSynth - 操作デモ](images/vibesynth-demo.gif)
+
+パターン生成、ループ録音・再生、音色エディタの使用などの基本機能をデモンストレーションしています。
 
 ## ✨ 主な機能
 
