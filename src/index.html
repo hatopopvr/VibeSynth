@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>音楽ジェネレーティブアート・サンプラー</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://unpkg.com/@zxing/library@latest"></script>
+  <!-- CSSファイルの分割読み込み -->
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/ui.css">
+  <link rel="stylesheet" href="styles/visualizer.css">
+</head>
+<body>
+  <div class="app-container" id="app-container">
+    <div class="canvas-container" id="canvas-container">
+      <div class="compact-toggle" id="toggle-panel">パネル折りたたみ</div>
+      <!-- ビートインジケータを追加 -->
+      <div class="beat-indicator" id="beat-indicator" style="display: none;"></div>
+    </div>
+    
+    <div class="control-panel">
+      <div class="panel-section">
+        <div class="panel-title">
+          <span class="panel-title-text">基本コントロール</span>
+        </div>
+        <div class="button-row">
+          <button id="start">スタート</button>
+          <button id="clear-all">全てクリア</button>
+        </div>
+        <div>
+          <div class="slider-label">
+            <span>BPM: <span id="bpm-value">120</span></span>
+          </div>
+          <input type="range" id="bpm-slider" min="60" max="180" value="120">
+        </div>
+        
+        <!-- メトロノーム機能の追加 -->
+        <div class="panel-title" style="margin-top: 15px;">
+          <span class="panel-title-text">メトロノーム</span>
+        </div>
+        <div>
+          <div class="button-select">
+            <button id="metronome-toggle" class="metronome-off">オフ</button>
+            <button id="metronome-pattern">パターン選択</button>
+          </div>
+          <div class="metronome-patterns" id="metronome-pattern-select" style="display: none;">
+            <button class="pattern-btn selected" data-pattern="click">クリック音</button>
+            <button class="pattern-btn" data-pattern="fourOnFloor">4つ打ち</button>
+            <button class="pattern-btn" data-pattern="backbeat">バックビート</button>
+            <button class="pattern-btn" data-pattern="hihat">ハイハット</button>
+          </div>
+          <div class="slider-label">
+            <span>音量: <span id="metronome-volume-value">50%</span></span>
+          </div>
+          <input type="range" id="metronome-volume" min="0" max="100" value="50">
+        </div>
+      </div>
+      
+      <div class="panel-section">
+        <div class="panel-title">
+          <span class="panel-title-text">ループ設定</span>
+        </div>
+        <div class="slider-label">
+          <span>ループの長さ: <span id="loop-length-value">2</span>小節</span>
+        </div>
+        <input type="range" id="loop-length-slider" min="1" max="8" value="2" step="1">
+        
+        <div class="slider-label">
+          <span>録音モード:</span>
+        </div>
+        <div class="button-select">
+          <button id="mode-auto" class="selected">自動停止</button>
+          <button id="mode-manual">手動停止</button>
+        </div>
+        
+        <!-- クオンタイズ機能の追加 -->
+        <div class="panel-title" style="margin-top: 15px;">
+          <span class="panel-title-text">タイミング自動補正（クオンタイズ）</span>
+          <span class="panel-title-button" id="quantize-toggle">オフ</span>
+        </div>
+        <div id="quantize-settings" style="display: none;">
+          <div class="slider-label">
+            <span>精度:</span>
+          </div>
+          <div class="button-select">
+            <button id="quantize-grid-4n" class="selected">4分音符</button>
+            <button id="quantize-grid-8n">8分音符</button>
+            <button id="quantize-grid-16n">16分音符</button>
+            <button id="quantize-grid-8t">3連符</button>
+          </div>
+          
+          <div class="slider-label">
+            <span>強度: <span id="quantize-strength-value">100%</span></span>
+          </div>
+          <input type="range" id="quantize-strength" min="0" max="100" value="100">
+          
+          <div class="slider-label">
+            <span>適用タイミング:</span>
+          </div>
+          <div class="button-select">
+            <button id="apply-on-record" class="selected">録音時</button>
+            <button id="apply-after">後から適用</button>
+          </div>
+          
+          <div class="checkbox-container" style="margin-top: 10px; display: flex; align-items: center;">
+            <input type="checkbox" id="show-grid" style="margin-right: 10px;">
+            <label for="show-grid">グリッド線を表示</label>
+          </div>
+          
+          <div id="apply-buttons" style="margin-top: 10px; display: none;">
+            <button id="apply-quantize">選択したループに適用</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="panel-section">
+        <div class="panel-title">
+          <span class="panel-title-text">ループパッド</span>
+        </div>
+        <p>クリックして録音開始、タップでON/OFF切替</p>
+        <div class="button-row">
+          <button id="generate-sample">パターン自動生成</button>
+        </div>
+        <div id="loop-container" class="loop-container">
+          <!-- ループパッドはJSで動的に生成 -->
+        </div>
+      </div>
+      
+      <div class="panel-section">
+        <div class="panel-title">
+          <span class="panel-title-text">音色パレット</span>
+          <span class="panel-title-button" id="edit-sounds">編集</span>
+        </div>
+        <div id="sound-palette" class="button-grid"></div>
+      </div>
+      
+      <!-- 設定のインポート/エクスポート機能 -->
+      <div class="panel-section">
+        <div class="panel-title">
+          <span class="panel-title-text">設定管理</span>
+        </div>
+        <div class="button-row">
+          <button id="export-settings" class="action-button">エクスポート</button>
+          <button id="import-settings" class="action-button">インポート</button>
+        </div>
+        <div id="export-result" style="margin-top: 10px; display: none;">
+          <textarea id="export-json" readonly style="width: 100%; height: 60px; background: #333; color: #fff; border: 1px solid #555; padding: 5px; font-size: 12px;"></textarea>
+          <button id="copy-json" class="small-button" style="margin-top: 5px;">コピー</button>
+          <button id="download-json" class="small-button" style="margin-top: 5px;">ファイルとして保存</button>
+          <!-- QRコード生成ボタンを非表示に -->
+          <button id="generate-qrcode" class="small-button" style="margin-top: 5px; display: none;">QRコードを生成</button>
+        </div>
+        <div id="import-form" style="margin-top: 10px; display: none;">
+          <textarea id="import-json" placeholder="JSONをここに貼り付け" style="width: 100%; height: 60px; background: #333; color: #fff; border: 1px solid #555; padding: 5px; font-size: 12px;"></textarea>
+          <div style="margin-top: 5px; display: flex; gap: 5px;">
+            <button id="load-json" class="small-button">読み込み</button>
+            <input type="file" id="import-file" accept=".json" style="display: none;">
+            <button id="select-file" class="small-button">ファイルを選択</button>
+            <button id="scan-qrcode" class="small-button" style="display: none;">QRコードをスキャン</button>
+          </div>
+        </div>
+        
+        <!-- QRコードとシェア機能のUI -->
+        <div id="qrcode-container" style="margin-top: 15px; display: none;">
+          <div class="panel-subtitle">QRコード</div>
+          <div style="display: flex; flex-direction: column; align-items: center; margin-top: 10px;">
+            <div id="qrcode" style="background: white; padding: 10px; border-radius: 5px;"></div>
+            <p style="font-size: 12px; margin-top: 5px; text-align: center;">このQRコードをスキャンして設定を共有</p>
+            <div class="button-row" style="margin-top: 10px;">
+              <button id="download-qrcode" class="small-button">QRコードを保存</button>
+              <button id="share-qrcode" class="small-button">共有</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- QRコードスキャン用コンテナ -->
+        <div id="qrcode-scanner" style="margin-top: 15px; display: none;">
+          <div class="panel-subtitle">QRコードスキャン</div>
+          <p style="font-size: 12px; margin-top: 5px;">QRコードをカメラに向けてください</p>
+          <div style="position: relative; width: 100%; max-width: 300px; margin: 0 auto;">
+            <video id="scanner-video" style="width: 100%; border-radius: 5px;"></video>
+            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 2px solid #4CAF50; box-sizing: border-box; border-radius: 5px;"></div>
+          </div>
+          <div style="margin-top: 10px; text-align: center;">
+            <button id="stop-scanning" class="small-button">スキャンを停止</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="panel-section">
+        <div class="panel-title">
+          <span class="panel-title-text">エフェクト設定</span>
+        </div>
+        <div class="slider-container">
+          <div class="slider-label">
+            <span>リバーブ</span>
+            <span id="reverb-value">50%</span>
+          </div>
+          <input type="range" id="reverb-slider" min="0" max="100" value="50">
+        </div>
+        <div class="slider-container">
+          <div class="slider-label">
+            <span>ディレイ</span>
+            <span id="delay-value">0%</span>
+          </div>
+          <input type="range" id="delay-slider" min="0" max="100" value="0">
+        </div>
+        <div class="slider-container">
+          <div class="slider-label">
+            <span>ビジュアル強度</span>
+            <span id="visual-value">50%</span>
+          </div>
+          <input type="range" id="visual-slider" min="0" max="100" value="50">
+        </div>
+      </div>
+      
+      <!-- スケール設定セクションを追加 -->
+      <div class="panel-section">
+        <div class="panel-title">
+          <span class="panel-title-text">スケール設定</span>
+        </div>
+        <div class="slider-label">
+          <span>音階:</span>
+        </div>
+        <select id="scale-selector" class="dropdown-select">
+          <option value="major">メジャー</option>
+          <option value="minor">マイナー</option>
+          <option value="pentatonic" selected>ペンタトニック</option>
+          <option value="blues">ブルース</option>
+          <option value="dorian">ドリアン</option>
+          <option value="lydian">リディアン</option>
+          <option value="mixolydian">ミクソリディアン</option>
+          <option value="harmonic_minor">ハーモニックマイナー</option>
+          <option value="melodic_minor">メロディックマイナー</option>
+          <option value="chinese">中国風五音階</option>
+          <option value="japanese">日本風民謡音階</option>
+          <option value="whole_tone">全音音階</option>
+          <option value="diminished">ディミニッシュ</option>
+        </select>
+        <div class="scale-info">
+          <p>選択したスケールの音階を使用して音が生成されます。</p>
+          <p>異なるスケールは異なる雰囲気と表現を提供します。</p>
+        </div>
+      </div>
+      
+      <!-- 録音メニューを非表示に -->
+      <div class="panel-section" style="display: none;">
+        <div class="panel-title">
+          <span class="panel-title-text">録音</span>
+        </div>
+        <div class="button-row">
+          <button id="record-audio">録音開始</button>
+          <button id="stop-recording">録音停止</button>
+        </div>
+        <div id="audio-visualizer" style="width: 100%; height: 50px;"></div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 音色エディタモーダル -->
+  <div id="sound-editor-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">音色エディタ</div>
+        <div class="modal-close" id="modal-close">&times;</div>
+      </div>
+      <div class="sound-editor" id="sound-editor-content">
+        <!-- 音色エディタの内容はJSで動的に生成 -->
+      </div>
+      <div class="button-row" style="margin-top: 15px;">
+        <button id="save-sound-settings">保存</button>
+        <button id="reset-sound-settings">リセット</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="help-toggle" id="help-toggle">ヘルプ表示</div>
+  
+  <div class="instructions hidden" id="instructions">
+    <p>マウスを動かしてビジュアルを生成、クリックで音を発生します。</p>
+    <p>ループパッドをクリックして録音開始。録音中のループを再度クリックするか、自動で録音終了。</p>
+    <p>録音済みのパッドをタップするとON/OFFを切り替えられます。</p>
+    
+    <div class="scale-section">
+      <h3>スケール設定について</h3>
+      <p>スケール（音階）を変更すると、生成される音の雰囲気が大きく変わります。</p>
+      <p>各スケールの特徴:</p>
+      <ul>
+        <li><strong>メジャー</strong>: 明るく前向きな印象の基本的な長調</li>
+        <li><strong>マイナー</strong>: 暗く哀愁のある印象の基本的な短調</li>
+        <li><strong>ペンタトニック</strong>: 5音階で構成、調和の取れた東洋的な響き</li>
+        <li><strong>ブルース</strong>: ブルースやロックに最適、表現力が豊か</li>
+        <li><strong>ドリアン/リディアン/ミクソリディアン</strong>: ジャズやフュージョンで使用される特徴的な音階</li>
+        <li><strong>中国風/日本風</strong>: アジアの伝統音楽を思わせる独特の音階</li>
+      </ul>
+      <p>スケールはリアルタイムで変更可能で、プレビュー機能で試聴できます。</p>
+    </div>
+    
+    <div class="shortcut-section">
+      <h3>キーボードショートカット</h3>
+      <div class="shortcut-list">
+        <div class="shortcut-item"><span class="key">スペース</span> - スタート/ストップ</div>
+        <div class="shortcut-item"><span class="key">C</span> - 全てのループをクリア</div>
+        <div class="shortcut-item"><span class="key">G</span> - パターン自動生成</div>
+        <div class="shortcut-item"><span class="key">M</span> - メトロノーム切り替え</div>
+        <div class="shortcut-item"><span class="key">H</span> - ヘルプ表示切り替え</div>
+        <div class="shortcut-item"><span class="key">Q</span> - クオンタイズ切り替え</div>
+        <div class="shortcut-item"><span class="key">E</span> - 設定エクスポート</div>
+        <div class="shortcut-item"><span class="key">I</span> - 設定インポート</div>
+        <div class="shortcut-item"><span class="key">S</span> - 音色エディタを開く</div>
+        <div class="shortcut-item"><span class="key">1-9</span> - 対応するループパッドを選択</div>
+        <div class="shortcut-item"><span class="key">↑/↓</span> - BPMを上げる/下げる</div>
+        <div class="shortcut-item"><span class="key">Delete</span> - 選択中のループをクリア</div>
+        <div class="shortcut-item"><span class="key">Esc</span> - モーダルを閉じる</div>
+      </div>
+    </div>
+  </div>
+  <!-- JavaScriptのモジュール読み込み -->
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+/* main.css - 基本スタイルとレイアウト */
+
+/* リセットとベーススタイル */
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #000;
+  font-family: Arial, sans-serif;
+}
+
+/* アプリケーションコンテナ */
+.app-container {
+  display: flex;
+  height: 100vh;
+}
+
+/* キャンバスコンテナ */
+.canvas-container {
+  flex-grow: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+/* コントロールパネル */
+.control-panel {
+  width: 300px;
+  color: white;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+}
+
+/* パネルセクション */
+.panel-section {
+  margin-bottom: 20px;
+}
+
+/* パネルタイトル */
+.panel-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  padding-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.panel-title-text {
+  flex-grow: 1;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.panel-subtitle {
+  font-weight: bold;
+  font-size: 14px;
+  margin-top: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  color: #aaa;
+}
+
+/* スライダー関連 */
+.slider-container {
+  margin-top: 10px;
+}
+
+.slider-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+input[type="range"] {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+/* ヘルプと指示 */
+.instructions {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  color: white;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  border-radius: 5px;
+  max-width: 400px;
+  transition: opacity 0.3s ease;
+}
+
+.help-toggle {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 101;
+  font-size: 14px;
+}
+
+.help-toggle:hover {
+  background: rgba(76, 175, 80, 0.7);
+}
+
+.instructions.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* パネル折りたたみ */
+.compact-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  display: none;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column;
+  }
+  .control-panel {
+    width: 100%;
+    height: 50%;
+    overflow-y: auto;
+  }
+  .canvas-container {
+    height: 50%;
+  }
+  .compact-toggle {
+    display: block;
+  }
+  .compact-mode .control-panel {
+    height: auto;
+    max-height: 100px;
+    overflow: hidden;
+  }
+  .compact-mode .canvas-container {
+    height: calc(100% - 100px);
+  }
+}
+
+@media (max-width: 600px) {
+  .app-container {
+    flex-direction: column;
+  }
+  .control-panel {
+    width: 100%;
+    height: 50%;
+    overflow-y: auto;
+  }
+  .canvas-container {
+    height: 50%;
+  }
+  .compact-toggle {
+    display: block;
+  }
+  .compact-mode .control-panel {
+    height: auto;
+    max-height: 100px;
+    overflow: hidden;
+  }
+  .compact-mode .canvas-container {
+    height: calc(100% - 100px);
+  }
+}
+
+/* ヘルプセクション */
+.shortcut-section {
+  margin-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  padding-top: 10px;
+}
+
+.shortcut-section h3 {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #4CAF50;
+}
+
+.scale-section {
+  margin-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  padding-top: 10px;
+}
+
+.scale-section h3 {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #4CAF50;
+}
+
+.scale-section ul {
+  padding-left: 20px;
+  margin: 8px 0;
+}
+
+.scale-section li {
+  margin-bottom: 4px;
+}
+
+/* ショートカットリスト */
+.shortcut-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 5px;
+}
+
+.shortcut-item {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.key {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: monospace;
+  margin-right: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+} 

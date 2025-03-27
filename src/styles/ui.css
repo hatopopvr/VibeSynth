@@ -1,0 +1,472 @@
+/* ui.css - UI要素のスタイル */
+
+/* ボタン基本スタイル */
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  background: #4CAF50;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  margin: 5px;
+}
+
+button:hover {
+  background: #45a049;
+}
+
+/* ボタン行 */
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* パネルタイトルボタン */
+.panel-title-button {
+  font-size: 14px;
+  padding: 3px 8px;
+  background: #555;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.panel-title-button:hover {
+  background: #666;
+}
+
+/* ボタン選択グループ */
+.button-select {
+  display: flex;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+.button-select button {
+  flex: 1;
+  margin: 0 2px;
+  padding: 5px;
+  font-size: 14px;
+  background: #333;
+}
+
+.button-select button.selected {
+  background: #4CAF50;
+}
+
+/* ループパッド */
+.loop-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+.loop-pad {
+  width: 60px;
+  height: 60px;
+  background-color: #333;
+  border-radius: 50%;
+  margin: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.loop-pad.selected {
+  box-shadow: 0 0 0 3px #fff, 0 0 10px 5px rgba(255, 255, 255, 0.5);
+  transform: scale(1.05);
+}
+
+.loop-pad::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #555;
+  transition: all 0.2s;
+}
+
+.loop-pad.has-content::after {
+  background-color: #4CAF50;
+}
+
+.loop-pad.active {
+  box-shadow: 0 0 10px white;
+  transform: scale(0.95);
+}
+
+.loop-pad.active::after {
+  background-color: #ff9800;
+}
+
+.loop-pad.recording {
+  border-color: #ff5555;
+  box-shadow: 0 0 10px #ff5555;
+}
+
+.loop-pad.recording::after {
+  background-color: #ff5555;
+}
+
+/* サウンドパレット */
+.sound-palette {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  gap: 8px;
+}
+
+.sound-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+}
+
+.sound-button:hover {
+  transform: scale(1.1);
+}
+
+.sound-button.selected {
+  border: 2px solid white;
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* モーダル */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 2000;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background-color: #222;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  color: white;
+  position: relative;
+  z-index: 2001;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 10px;
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.modal-close {
+  font-size: 24px;
+  cursor: pointer;
+  color: #aaa;
+}
+
+.modal-close:hover {
+  color: white;
+}
+
+/* 音色エディタ */
+.sound-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.sound-editor-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #444;
+  border-radius: 4px;
+}
+
+.sound-preview {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.sound-editor-controls {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sound-name {
+  font-weight: bold;
+}
+
+.color-picker {
+  display: flex;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.color-option {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.color-option.selected {
+  border-color: white;
+}
+
+.synth-selector {
+  margin-top: 5px;
+  padding: 5px;
+  background-color: #333;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 4px;
+}
+
+/* ループパッドメニュー */
+.loop-pad-menu {
+  position: absolute;
+  display: none;
+  background: rgba(40, 40, 40, 0.95);
+  border: 1px solid #555;
+  border-radius: 5px;
+  z-index: 1000;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.loop-pad-menu-item {
+  padding: 8px 12px;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.loop-pad-menu-item:hover {
+  background: rgba(76, 175, 80, 0.7);
+}
+
+/* メトロノーム関連 */
+.metronome-patterns {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.pattern-btn {
+  padding: 5px 8px;
+  margin: 2px;
+  font-size: 12px;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.pattern-btn:hover {
+  background: #555;
+}
+
+.pattern-btn.selected {
+  background: #4CAF50;
+}
+
+.metronome-off {
+  background: #555 !important;
+}
+
+.metronome-on {
+  background: #ff5555 !important;
+}
+
+/* 設定管理用ボタン */
+.action-button {
+  flex: 1;
+  padding: 8px;
+  background: #555;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.action-button:hover {
+  background: #777;
+}
+
+.small-button {
+  padding: 5px 10px;
+  background: #555;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.3s;
+}
+
+.small-button:hover {
+  background: #777;
+}
+
+/* ボタングリッド */
+.button-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* モバイル対応 */
+@media (max-width: 600px) {
+  .modal-content {
+    width: 95%;
+    max-height: 90vh;
+    padding: 15px;
+  }
+  .sound-editor-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .sound-preview {
+    margin-bottom: 10px;
+  }
+}
+
+/* ロングタップスタイル */
+.long-tap-active {
+  transition: transform 0.1s ease-in-out;
+  transform: scale(0.98);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5) inset;
+}
+
+.long-tap-complete {
+  animation: tapPulse 0.3s ease-out;
+}
+
+@keyframes tapPulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px 10px rgba(255, 255, 255, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+}
+
+/* ビートインジケーター */
+.beat-indicator {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  padding: 5px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  z-index: 50;
+}
+
+.beat-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #444;
+  margin: 0 3px;
+  transition: all 0.1s ease;
+  opacity: 0.5;
+}
+
+.beat-dot.active {
+  background: #ff5555;
+  transform: scale(1.5);
+  opacity: 1;
+}
+
+.beat-dot.accent {
+  border: 1px solid #ff5555;
+}
+
+/* スケール情報 */
+.scale-info {
+  margin-top: 10px;
+  font-size: 0.9em;
+  color: #ccc;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 8px;
+  border-radius: 4px;
+  line-height: 1.4;
+}
+
+/* スケールプレビュー */
+.scale-preview {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  height: 30px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.scale-note {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+.scale-preview:hover .scale-note {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.scale-note.active {
+  background-color: rgba(255, 255, 255, 0.3);
+} 

@@ -1,0 +1,35 @@
+{
+    "name": "vibesynth",
+    "version": "1.0.0",
+    "description": "インタラクティブな音楽ジェネレーティブアートアプリ",
+    "private": true,
+    "scripts": {
+        "start": "gulp serve",
+        "build": "gulp build",
+        "dev": "gulp dev",
+        "clean": "gulp clean"
+    },
+    "keywords": [
+        "music",
+        "generative-art",
+        "p5js",
+        "tonejs",
+        "web-audio",
+        "interactive"
+    ],
+    "author": "はとぽラボ (hatopolab)",
+    "license": "MIT",
+    "devDependencies": {
+        "del": "^6.1.1",
+        "gulp": "^5.0.0",
+        "gulp-concat": "^2.6.1",
+        "gulp-replace": "^1.1.4",
+        "gulp-connect": "^5.7.0",
+        "gulp-sourcemaps": "^3.0.0",
+        "gulp-uglify": "^3.0.2"
+    },
+    "dependencies": {
+        "p5": "^1.7.0",
+        "tone": "^14.7.77"
+    }
+}

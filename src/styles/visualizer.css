@@ -1,0 +1,138 @@
+/* visualizer.css - ビジュアライザー関連のスタイル */
+
+/* アニメーション */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 85, 85, 0.7);
+  }
+  50% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 10px rgba(255, 85, 85, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 85, 85, 0);
+  }
+}
+
+/* パターン生成アニメーション */
+.generated {
+  animation: generatePulse 1s ease-out;
+  position: relative;
+}
+
+.generated::after {
+  content: "パターン生成!";
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 200, 0, 0.8);
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  animation: fadeUp 1s ease-out;
+}
+
+@keyframes generatePulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(100, 255, 100, 0.7);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px 8px rgba(100, 255, 100, 0.4);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(100, 255, 100, 0);
+  }
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    top: 0;
+  }
+  20% {
+    opacity: 1;
+    top: -20px;
+  }
+  80% {
+    opacity: 1;
+    top: -20px;
+  }
+  100% {
+    opacity: 0;
+    top: -30px;
+  }
+}
+
+/* パーティクル関連のスタイル */
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.8;
+  z-index: 10;
+}
+
+/* ビジュアライザーキャンバス */
+#p5-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+}
+
+/* 波形の表示 */
+.waveform-container {
+  width: 100%;
+  height: 50px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 10px;
+  position: relative;
+}
+
+.waveform-line {
+  position: absolute;
+  bottom: 50%;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.7);
+  transform-origin: bottom center;
+}
+
+/* グリッド線 */
+.grid-line {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+  z-index: 20;
+}
+
+.grid-line.vertical {
+  width: 1px;
+  height: 100%;
+  top: 0;
+}
+
+.grid-line.horizontal {
+  height: 1px;
+  width: 100%;
+  left: 0;
+}
+
+.grid-line.beat {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.grid-line.measure {
+  background: rgba(255, 255, 255, 0.3);
+} 
